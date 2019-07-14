@@ -1,7 +1,7 @@
 {
-  "name": "angular-7-webpack-4-boilerplate",
+  "name": "webpack-for-angular",
   "version": "1.0.0",
-  "description": "Angular 7 application with webpack 4 boilerplate",
+  "description": "Angular 8 application with webpack 4",
   "scripts": {
     "build:prod": "node --max-old-space-size=6144 node_modules/webpack/bin/webpack.js --config config/webpack.prod.js  --progress --profile --bail",
     "build": "npm run build:prod",
@@ -10,11 +10,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/samteb/Angular-7-Webpack-4.git"
+    "url": "https://github.com/Karolb97/webpack-for-angular.git"
   },
-  "author": "samteb <sam.teboul@gmail.com>",
-  "license": "MIT",
-  "homepage": "https://github.com/samteb/Angular-7-Webpack-4",
+  "author": "Vlad",
   "dependencies": {
     "@angular/animations": "^8.0.0",
     "@angular/common": "^8.0.0",
