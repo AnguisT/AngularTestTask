@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
     selector: 'app-base',
@@ -8,4 +9,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 })
 
 export class BaseComponent {
+    constructor (private translate: TranslateService) {
+        this.translate.use('ru-RU');
+    }
 }
