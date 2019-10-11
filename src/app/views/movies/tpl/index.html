@@ -1,0 +1,41 @@
+<form>
+  <label>Genre:</label>
+  <div class="form-group d-flex flex-row">
+    <select
+      [(ngModel)]="selectedGenre"
+      (ngModelChange)="selectGenre($event)"
+      name="sel2"
+      class="form-control"
+    >
+      <option value="-1" selected>Выберите жанр</option>
+      <option *ngFor="let genre of listGenres" [ngValue]="genre.id">{{
+        genre.name
+      }}</option>
+    </select>
+    <div class="text-right ml-1">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="cleanSelectGenre()"
+      >
+        Сбросить
+      </button>
+    </div>
+  </div>
+</form>
+<list-card [movies]="listMovies"></list-card>
+<div class="d-flex flex-row flex-wrap justify-content-end">
+  <div>
+    <button *ngIf="page !== 1" class="btn btn-primary" (click)="previusPage()">
+      Предыдущая страница
+    </button>
+    {{ page }} of {{ totalPages }}
+    <button
+      *ngIf="page !== totalPages"
+      class="btn btn-primary"
+      (click)="nextPage()"
+    >
+      Следующая страница
+    </button>
+  </div>
+</div>

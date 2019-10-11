@@ -1,0 +1,67 @@
+<div class="card mt-3" *ngIf="detailData">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item cursor-pointer" (click)="isDescription = true">
+        <a class="nav-link" [class.active]="isDescription">Инофрмация</a>
+      </li>
+      <li class="nav-item cursor-pointer" (click)="isDescription = false">
+        <a class="nav-link" [class.active]="!isDescription">Трейлеры</a>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="isDescription" class="row no-gutters p-2">
+    <div class="col-auto">
+      <img
+        *ngIf="detailData.poster_path; else default"
+        class="card-img-top"
+        src="https://image.tmdb.org/t/p/w200{{ detailData.poster_path }}"
+      />
+      <ng-template #default>
+        <img class="card-img-top default-img" src="/assets/default-image.png" />
+      </ng-template>
+    </div>
+    <div class="col">
+      <div class="card-block px-2">
+        <h4 class="card-title">{{ detailData.title }}</h4>
+        <p class="flex-row flex-wrap">
+          Страны:
+          <span
+            *ngFor="
+              let country of detailData.production_countries;
+              let i = index
+            "
+          >
+            {{ country.name
+            }}<span *ngIf="i !== detailData.production_countries.length - 1"
+              >,</span
+            >
+          </span>
+        </p>
+        <p class="card-text">Премьера: {{ detailData.release_date }}</p>
+        <p class="flex-row flex-wrap">
+          Жанры:
+          <span *ngFor="let genre of detailData.genres; let i = index">
+            {{ genre.name
+            }}<span *ngIf="i !== detailData.genres.length - 1">,</span>
+          </span>
+        </p>
+        <p *ngIf="detailData.budget !== 0" class="card-text">
+          Бюджет: $ {{ detailData.budget }}
+        </p>
+        <p *ngIf="detailData.budget !== 0" class="card-text">
+          Сборы: $ {{ detailData.revenue }}
+        </p>
+        <p class="card-text">{{ detailData.overview }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="card-block p-2" *ngIf="!isDescription">
+    <youtube-player
+      class="m-2"
+      *ngFor="let trailer of trailerData"
+      [videoId]="trailer.key"
+      (ready)="savePlayer($event)"
+      (change)="onStateChange($event)"
+    ></youtube-player>
+  </div>
+</div>

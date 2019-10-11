@@ -1,54 +1,56 @@
-import { ActivatedRouteSnapshot, RouteReuseStrategy, DetachedRouteHandle } from '@angular/router';
-import { Injectable } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  RouteReuseStrategy,
+  DetachedRouteHandle
+} from "@angular/router";
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class RouterReuseStrategy implements RouteReuseStrategy {
+  private reservedUrls: any = [/detail/];
 
-    private reservedUrls = [
-        /detail/,
-    ];
+  private handlers: { [key: string]: DetachedRouteHandle } = {};
 
-    private handlers: { [key: string]: DetachedRouteHandle } = {};
+  constructor() {}
 
-    constructor() {
+  private clearCacheByUrl(url: string) {
+    delete this.handlers[url];
+  }
+
+  shouldDetach(route: ActivatedRouteSnapshot): boolean {
+    let url = route.url.join("/") || route.parent.url.join("/");
+    for (let reservedUrl of this.reservedUrls) {
+      if (reservedUrl.test(url)) {
+        return;
+      }
     }
+    return true;
+  }
 
-    private clearCacheByUrl(url: string) {
-      delete this.handlers[url];
+  store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
+    let url = route.url.join("/") || route.parent.url.join("/");
+    this.handlers[url] = handle;
+  }
+
+  shouldAttach(route: ActivatedRouteSnapshot): boolean {
+    let url = route.url.join("/") || route.parent.url.join("/");
+    for (let reservedUrl of this.reservedUrls) {
+      if (reservedUrl.test(url)) {
+        return false;
+      }
     }
+    return !!route.routeConfig && !!this.handlers[url];
+  }
 
-    shouldDetach(route: ActivatedRouteSnapshot): boolean {
-        let url = route.url.join('/') || route.parent.url.join('/');
-        for (let reservedUrl of this.reservedUrls) {
-            if (reservedUrl.test(url)) {
-                return;
-            }
-        }
-        return true;
-    }
+  retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
+    if (!route.routeConfig) return null;
+    return this.handlers[route.url.join("/") || route.parent.url.join("/")];
+  }
 
-    store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
-        let url = route.url.join('/') || route.parent.url.join('/');
-        this.handlers[url] = handle;
-    }
-
-    shouldAttach(route: ActivatedRouteSnapshot): boolean {
-        let url = route.url.join('/') || route.parent.url.join('/');
-        for (let reservedUrl of this.reservedUrls) {
-            if (reservedUrl.test(url)) {
-                return false;
-            }
-        }
-        return !!route.routeConfig && !!this.handlers[url];
-    }
-
-    retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
-        if (!route.routeConfig) return null;
-        return this.handlers[route.url.join('/') || route.parent.url.join('/')];
-    }
-
-    shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
-        return future.routeConfig === curr.routeConfig;
-    }
-
+  shouldReuseRoute(
+    future: ActivatedRouteSnapshot,
+    curr: ActivatedRouteSnapshot
+  ): boolean {
+    return future.routeConfig === curr.routeConfig;
+  }
 }
