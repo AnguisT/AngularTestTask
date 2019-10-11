@@ -14,10 +14,11 @@ import { BaseComponent } from "./views/base/base.component";
 import { HttpService } from "./modules/service/htpp.service";
 import { MoviesModule } from "./views/movies";
 import { DetailModule } from "./views/detail";
+import { NotFoundComponent } from "./views/error/notfound.component";
 
 @NgModule({
   bootstrap: [BaseComponent],
-  declarations: [BaseComponent],
+  declarations: [BaseComponent, NotFoundComponent],
   imports: [
     CommonModule,
     BrowserModule,
