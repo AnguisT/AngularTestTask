@@ -19,6 +19,7 @@ export class DetailComponent {
       this.detailService.getTrailes(params.id).subscribe(data => {
         let body = JSON.parse(data._body);
         this.trailerData = body.results;
+        console.log(body.results);
       });
       this.detailService
         .getDataDetailMovie(params.id)

@@ -1,5 +1,5 @@
 <form>
-  <label>Genre:</label>
+  <label>Жанр:</label>
   <div class="form-group d-flex flex-row">
     <select
       [(ngModel)]="selectedGenre"
@@ -7,7 +7,7 @@
       name="sel2"
       class="form-control"
     >
-      <option value="-1" selected>Выберите жанр</option>
+      <option value="-1">Выберите жанр</option>
       <option *ngFor="let genre of listGenres" [ngValue]="genre.id">{{
         genre.name
       }}</option>
@@ -17,6 +17,8 @@
         type="button"
         class="btn btn-primary"
         (click)="cleanSelectGenre()"
+        [class.disabled]="!isSelected"
+        [attr.disabled]="!isSelected ? true : null"
       >
         Сбросить
       </button>

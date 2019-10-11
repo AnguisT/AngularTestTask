@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { HttpService } from "../../modules/service/htpp.service";
+import { MovieService } from "./service/movie.service";
 
 @Component({
   selector: "movies",
@@ -7,33 +8,27 @@ import { HttpService } from "../../modules/service/htpp.service";
   styleUrls: ["./styles/index.scss"]
 })
 export class MoviesComponent {
-  private listMovies: any;
+  private listMovies: any = [];
   private listGenres: any = [];
   private selectedGenre: string = "-1";
   private page: number;
   private totalPages: number;
+  private isSelected: boolean;
 
-  constructor(private http: HttpService) {
-    this.getMovies(1);
-    this.getGenres();
+  constructor(private http: HttpService, private movieService: MovieService) {
+    this.getMovies();
+    this.movieService.getGenres().subscribe(data => {
+      let body = JSON.parse(data._body);
+      this.listGenres = body.genres;
+    });
   }
 
-  getMovies(page: number) {
-    let url: string = `https://api.themoviedb.org/3/discover/movie?api_key=136c0ede72f807901528d9d1af86e80f&language=ru&page=${page}`;
-    this.http.get(url).subscribe((data: any) => {
+  getMovies(page: number = 1) {
+    this.movieService.getMovies(page).subscribe(data => {
       let body = JSON.parse(data._body);
       this.listMovies = body.results;
       this.page = body.page;
       this.totalPages = body.total_pages;
-    });
-  }
-
-  getGenres() {
-    let url: string =
-      "https://api.themoviedb.org/3/genre/movie/list?api_key=136c0ede72f807901528d9d1af86e80f&language=ru";
-    this.http.get(url).subscribe((data: any) => {
-      let body = JSON.parse(data._body);
-      this.listGenres = body.genres;
     });
   }
 
@@ -43,16 +38,16 @@ export class MoviesComponent {
   }
 
   selectGenre(selectedGenre: string) {
+    this.page = 1;
     if (selectedGenre !== "-1") {
-      let page = Math.round(Math.random() * 100 + 1);
-      let url: string = `https://api.themoviedb.org/3/discover/movie?api_key=136c0ede72f807901528d9d1af86e80f&language=ru&page=${page}&with_genres=${this.selectedGenre}`;
-      this.http.get(url).subscribe((data: any) => {
-        console.log(data);
+      this.isSelected = true;
+      this.movieService.getMoviesByGenre(selectedGenre).subscribe(data => {
         let body = JSON.parse(data._body);
         this.listMovies = body.results;
       });
     } else {
-      this.getMovies(1);
+      this.isSelected = false;
+      this.getMovies();
     }
   }
 

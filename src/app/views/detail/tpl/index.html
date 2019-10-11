@@ -4,7 +4,11 @@
       <li class="nav-item cursor-pointer" (click)="isDescription = true">
         <a class="nav-link" [class.active]="isDescription">Инофрмация</a>
       </li>
-      <li class="nav-item cursor-pointer" (click)="isDescription = false">
+      <li
+        *ngIf="trailerData.length"
+        class="nav-item cursor-pointer"
+        (click)="isDescription = false"
+      >
         <a class="nav-link" [class.active]="!isDescription">Трейлеры</a>
       </li>
     </ul>
@@ -23,7 +27,10 @@
     <div class="col">
       <div class="card-block px-2">
         <h4 class="card-title">{{ detailData.title }}</h4>
-        <p class="flex-row flex-wrap">
+        <p
+          *ngIf="detailData.production_countries.length"
+          class="flex-row flex-wrap"
+        >
           Страны:
           <span
             *ngFor="
@@ -37,8 +44,10 @@
             >
           </span>
         </p>
-        <p class="card-text">Премьера: {{ detailData.release_date }}</p>
-        <p class="flex-row flex-wrap">
+        <p *ngIf="detailData.release_date" class="card-text">
+          Премьера: {{ detailData.release_date }}
+        </p>
+        <p *ngIf="detailData.genres.length" class="flex-row flex-wrap">
           Жанры:
           <span *ngFor="let genre of detailData.genres; let i = index">
             {{ genre.name
@@ -51,7 +60,9 @@
         <p *ngIf="detailData.budget !== 0" class="card-text">
           Сборы: $ {{ detailData.revenue }}
         </p>
-        <p class="card-text">{{ detailData.overview }}</p>
+        <p *ngIf="detailData.overview" class="card-text">
+          {{ detailData.overview }}
+        </p>
       </div>
     </div>
   </div>
