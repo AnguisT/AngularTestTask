@@ -6,7 +6,6 @@ import { HttpModule, Http } from "@angular/http";
 import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NgxYoutubePlayerModule } from "ngx-youtube-player";
 
 import { ROUTES } from "./app.routes";
 
