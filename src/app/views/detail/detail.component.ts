@@ -11,6 +11,9 @@ export class DetailComponent {
   private detailData: any;
   private trailerData: any;
   private isDescription: boolean = true;
+  private isLoaded: boolean = false;
+  private isLoadedTrailer: boolean = false;
+
   constructor(
     private router: ActivatedRoute,
     private detailService: DetailService
@@ -19,13 +22,17 @@ export class DetailComponent {
       this.detailService.getTrailes(params.id).subscribe(data => {
         let body = JSON.parse(data._body);
         this.trailerData = body.results;
-        console.log(body.results);
+        this.isLoadedTrailer = true;
       });
-      this.detailService
-        .getDataDetailMovie(params.id)
-        .subscribe((data: any) => {
+      this.detailService.getDataDetailMovie(params.id).subscribe(
+        (data: any) => {
           this.detailData = JSON.parse(data._body);
-        });
+          this.isLoaded = true;
+        },
+        (err: any) => {
+          this.isLoaded = true;
+        }
+      );
     });
   }
 }

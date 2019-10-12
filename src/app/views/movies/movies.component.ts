@@ -13,6 +13,7 @@ export class MoviesComponent {
   private page: number;
   private totalPages: number;
   private filterValues: any = { page: 1 };
+  private isLoaded: boolean = false;
 
   constructor(private http: HttpService, private movieService: MovieService) {
     this.getMovies();
@@ -24,7 +25,7 @@ export class MoviesComponent {
 
   changeFilter(filterValues: any) {
     this.filterValues = filterValues;
-    console.log(this.filterValues);
+    this.isLoaded = false;
     this.getMovies();
   }
 
@@ -35,6 +36,7 @@ export class MoviesComponent {
       this.listMovies = body.results;
       this.page = body.page;
       this.totalPages = body.total_pages;
+      this.isLoaded = true;
     });
   }
 

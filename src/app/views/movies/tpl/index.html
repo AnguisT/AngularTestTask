@@ -3,19 +3,39 @@
   (onFilterValue)="changeFilter($event)"
 ></custom-form>
 
-<list-card [movies]="listMovies"></list-card>
-<div class="d-flex flex-row flex-wrap justify-content-end mb-1">
-  <div>
-    <button *ngIf="page !== 1" class="btn btn-primary" (click)="previusPage()">
-      Предыдущая страница
-    </button>
-    {{ page }} из {{ totalPages }}
-    <button
-      *ngIf="page !== totalPages"
-      class="btn btn-primary"
-      (click)="nextPage()"
-    >
-      Следующая страница
-    </button>
+<div *ngIf="isLoaded; else loader">
+  <div *ngIf="listMovies.length !== 0; else notFound">
+    <list-card [movies]="listMovies"></list-card>
+
+    <div class="d-flex flex-row flex-wrap justify-content-end mb-1">
+      <div>
+        <button
+          *ngIf="page !== 1"
+          class="btn btn-primary"
+          (click)="previusPage()"
+        >
+          Предыдущая страница
+        </button>
+        {{ page }} из {{ totalPages }}
+        <button
+          *ngIf="page !== totalPages"
+          class="btn btn-primary"
+          (click)="nextPage()"
+        >
+          Следующая страница
+        </button>
+      </div>
+    </div>
   </div>
+  <ng-template #notFound>
+    <h1 class="text-center">Not found</h1>
+  </ng-template>
 </div>
+
+<ng-template #loader>
+  <div class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</ng-template>
