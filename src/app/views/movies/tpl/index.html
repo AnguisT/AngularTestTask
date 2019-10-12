@@ -12,26 +12,57 @@
         genre.name
       }}</option>
     </select>
-    <div class="text-right ml-1">
-      <button
-        type="button"
-        class="btn btn-primary"
-        (click)="cleanSelectGenre()"
-        [class.disabled]="!isSelected"
-        [attr.disabled]="!isSelected ? true : null"
-      >
-        Сбросить
-      </button>
-    </div>
+    <button
+      class="btn ml-1"
+      [class.disabled]="!isSelectedGenre"
+      [attr.disabled]="!isSelectedGenre ? true : null"
+      (click)="cleanSelectGenre()"
+    >
+      <i class="material-icons">close</i>
+    </button>
+  </div>
+  <label>Год: {{ inputYear }}</label>
+  <div class="form-group d-flex flex-row">
+    <input
+      type="range"
+      class="form-control"
+      [(ngModel)]="inputYear"
+      name="year"
+      id="formInputYear"
+      placeholder="Введите год"
+      min="1890"
+      max="2019"
+      value="2019"
+      (mouseup)="changeYear($event)"
+    />
+    <button
+      class="btn ml-1"
+      [class.disabled]="!isInputYear"
+      [attr.disabled]="!isInputYear ? true : null"
+      (click)="cleanInputYear()"
+    >
+      <i class="material-icons">close</i>
+    </button>
+  </div>
+  <div class="text-right mb-1">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="allClean()"
+      [class.disabled]="!isSelectedGenre && !isInputYear"
+      [attr.disabled]="!isSelectedGenre && !isInputYear ? true : null"
+    >
+      Сбросить
+    </button>
   </div>
 </form>
 <list-card [movies]="listMovies"></list-card>
-<div class="d-flex flex-row flex-wrap justify-content-end">
+<div class="d-flex flex-row flex-wrap justify-content-end mb-1">
   <div>
     <button *ngIf="page !== 1" class="btn btn-primary" (click)="previusPage()">
       Предыдущая страница
     </button>
-    {{ page }} of {{ totalPages }}
+    {{ page }} из {{ totalPages }}
     <button
       *ngIf="page !== totalPages"
       class="btn btn-primary"

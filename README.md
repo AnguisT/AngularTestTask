@@ -1,14 +1,14 @@
 # Angular test task
 
-#### How to run a project the locally?
+#### Steps for starting the project.
 
-1. Clone a project from [github](https://github.com/Karolb97/AngularTestTask.git)
+1. Clone the project from [github](https://github.com/Karolb97/AngularTestTask.git)
    `git clone https://github.com/Karolb97/AngularTestTask.git`
 
-2. Install all packages from the package.json
+2. Install packages
    `npm install`
 
-3. Run the project locally using the command:
+3. For running the project use the command:
    `npm start`
 
-4. Open the `localhost:8080` link in your browser
+4. Open the `localhost:8080`

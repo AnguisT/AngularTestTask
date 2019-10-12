@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpService } from "../../../modules/service/htpp.service";
+import { Object } from "core-js";
 
 @Injectable()
 export class MovieService {
@@ -14,11 +15,15 @@ export class MovieService {
     );
   }
 
-  getMoviesByGenre(selectedGenre: string): Observable<any> {
+  getMoviesByParams(params?: any): Observable<any> {
+    const searchParams = Object.entries(params || {})
+      .map(pair => pair.map(encodeURIComponent).join("="))
+      .join("&");
+    console.log(searchParams);
     return this.httpService.get(
       "https://api.themoviedb.org/3/discover/movie?api_key=136c0ede72f807901528d9d1af86e80f&" +
-        "language=ru&page=1&with_genres=" +
-        selectedGenre
+        "language=ru" +
+        (searchParams.length ? "&" + searchParams : "")
     );
   }
 
