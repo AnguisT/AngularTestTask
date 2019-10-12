@@ -60,6 +60,7 @@ export class FormComponent {
   changeYear(changeYear: any) {
     this.isInputYear = true;
     this.filterValues.primary_release_year = changeYear.target.value;
+    this.filterValues.page = 1;
     this.onFilterValue.emit(this.filterValues);
   }
 }
